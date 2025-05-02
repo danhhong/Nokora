@@ -352,7 +352,7 @@ name = "Use Typo Metrics";
 value = 1;
 }
 );
-date = "2024-07-11 02:51:39 +0000";
+date = "2025-05-02 13:29:01 +0000";
 familyName = Nokora;
 featurePrefixes = (
 {
@@ -41943,6 +41943,6 @@ disablesAutomaticAlignment = 1;
 disablesNiceNames = 1;
 };
 unitsPerEm = 2048;
-versionMajor = 8;
+versionMajor = 9;
 versionMinor = 0;
 }
