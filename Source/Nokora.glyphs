@@ -1,5 +1,5 @@
 {
-.appVersion = "3260";
+.appVersion = "3343";
 .formatVersion = 3;
 axes = (
 {
@@ -640,7 +640,7 @@ value = 1900;
 },
 {
 name = winDescent;
-value = 800;
+value = 810;
 },
 {
 name = hheaAscender;
@@ -704,7 +704,7 @@ value = 1900;
 },
 {
 name = winDescent;
-value = 800;
+value = 810;
 },
 {
 name = hheaAscender;
@@ -767,7 +767,7 @@ value = 1900;
 },
 {
 name = winDescent;
-value = 800;
+value = 810;
 },
 {
 name = hheaAscender;
