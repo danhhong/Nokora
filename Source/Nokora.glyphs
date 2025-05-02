@@ -35989,7 +35989,7 @@ key = copyrights;
 values = (
 {
 language = ENG;
-value = "Copyright 2024 Google Inc. All Rights Reserved.";
+value = "Copyright 2019 The Nokora Project Authors (https://github.com/danhhong/Nokora)";
 }
 );
 },
@@ -36014,6 +36014,19 @@ language = ENG;
 value = Nokora;
 }
 );
+},
+{
+key = licenses;
+values = (
+{
+language = dflt;
+value = "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: openfontlicense.org";
+}
+);
+},
+{
+key = licenseURL;
+value = "https://openfontlicense.org";
 },
 {
 key = manufacturers;
