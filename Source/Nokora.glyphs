@@ -925,7 +925,7 @@ note = CR;
 },
 {
 glyphname = space;
-lastChange = "2024-07-08 04:21:21 +0000";
+lastChange = "2025-05-02 12:56:52 +0000";
 layers = (
 {
 layerId = m01;
@@ -941,7 +941,7 @@ width = 532;
 }
 );
 note = space;
-unicode = 32;
+unicode = (32,160);
 },
 {
 glyphname = uni0000;
