@@ -341,6 +341,15 @@ uni17D2_1798.b,
 uni17D2_17A0.b,
 uni1794.a
 );
+},
+{
+name = fsType;
+value = (
+);
+},
+{
+name = "Use Typo Metrics";
+value = 1;
 }
 );
 date = "2024-07-11 02:51:39 +0000";
