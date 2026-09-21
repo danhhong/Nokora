@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="uni17BB.b" format="2">
+  <advance width="0"/>
+  <outline>
+    <contour>
+      <point x="-438" y="-620" type="line"/>
+      <point x="-523" y="-620" type="line"/>
+      <point x="-523" y="-520" type="line"/>
+      <point x="-250" y="-520" type="line"/>
+      <point x="-250" y="-800" type="line"/>
+      <point x="-438" y="-800" type="line"/>
+    </contour>
+  </outline>
+</glyph>

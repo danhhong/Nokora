@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="sub94.b" format="2">
+  <advance width="588"/>
+  <outline>
+    <contour>
+      <point x="-342" y="-390" type="line"/>
+      <point x="-104" y="-390" type="line"/>
+      <point x="-104" y="-436" type="line"/>
+      <point x="-284" y="-436" type="line"/>
+      <point x="-284" y="-744" type="line"/>
+      <point x="-1" y="-550" type="line"/>
+      <point x="280" y="-743" type="line"/>
+      <point x="280" y="806" type="line"/>
+      <point x="72" y="997" type="line" smooth="yes"/>
+      <point x="42" y="1024"/>
+      <point x="42" y="1052" type="qcurve" smooth="yes"/>
+      <point x="42" y="1073"/>
+      <point x="62" y="1105" type="qcurve" smooth="yes"/>
+      <point x="120" y="1200" type="line"/>
+      <point x="338" y="1200" type="line"/>
+      <point x="338" y="1150" type="line"/>
+      <point x="143" y="1150" type="line"/>
+      <point x="91" y="1050" type="line"/>
+      <point x="338" y="830" type="line"/>
+      <point x="338" y="-800" type="line"/>
+      <point x="280" y="-800" type="line"/>
+      <point x="-1" y="-605" type="line"/>
+      <point x="-283" y="-800" type="line"/>
+      <point x="-342" y="-800" type="line"/>
+    </contour>
+  </outline>
+</glyph>

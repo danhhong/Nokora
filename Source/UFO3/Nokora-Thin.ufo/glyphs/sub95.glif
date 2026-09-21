@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="sub95" format="2">
+  <advance width="0"/>
+  <anchor x="-1950" y="0" name="_Anchor-0"/>
+  <outline>
+    <contour>
+      <point x="-1050" y="-60" type="line"/>
+      <point x="-992" y="-60" type="line"/>
+      <point x="-992" y="-405" type="line"/>
+      <point x="-650" y="-223" type="line"/>
+      <point x="-308" y="-405" type="line"/>
+      <point x="-308" y="-112" type="line"/>
+      <point x="-561" y="-112" type="line"/>
+      <point x="-561" y="-60" type="line"/>
+      <point x="-250" y="-60" type="line"/>
+      <point x="-250" y="-470" type="line"/>
+      <point x="-308" y="-470" type="line"/>
+      <point x="-650" y="-288" type="line"/>
+      <point x="-992" y="-470" type="line"/>
+      <point x="-1050" y="-470" type="line"/>
+    </contour>
+  </outline>
+</glyph>

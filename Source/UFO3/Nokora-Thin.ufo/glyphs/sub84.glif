@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="sub84" format="2">
+  <advance width="0"/>
+  <anchor x="-1950" y="0" name="_Anchor-0"/>
+  <outline>
+    <contour>
+      <point x="-1050" y="-285" type="qcurve" smooth="yes"/>
+      <point x="-1050" y="-100"/>
+      <point x="-783" y="-100" type="qcurve"/>
+      <point x="-783" y="-150" type="line"/>
+      <point x="-992" y="-150"/>
+      <point x="-992" y="-285" type="qcurve" smooth="yes"/>
+      <point x="-992" y="-420"/>
+      <point x="-756" y="-420" type="qcurve" smooth="yes"/>
+      <point x="-308" y="-420"/>
+      <point x="-308" y="-50" type="qcurve"/>
+      <point x="-250" y="-50" type="line"/>
+      <point x="-250" y="-470"/>
+      <point x="-756" y="-470" type="qcurve" smooth="yes"/>
+      <point x="-1050" y="-470"/>
+    </contour>
+  </outline>
+</glyph>

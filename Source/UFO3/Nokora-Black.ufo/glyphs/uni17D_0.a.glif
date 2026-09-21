@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="uni17D0.a" format="2">
+  <advance width="0"/>
+  <outline>
+    <contour>
+      <point x="-760" y="1713" type="qcurve" smooth="yes"/>
+      <point x="-760" y="1891"/>
+      <point x="-383" y="1891" type="qcurve" smooth="yes"/>
+      <point x="-339" y="1891" type="line"/>
+      <point x="-339" y="1781" type="line"/>
+      <point x="-386" y="1781" type="line" smooth="yes"/>
+      <point x="-450" y="1781"/>
+      <point x="-450" y="1713" type="qcurve" smooth="yes"/>
+      <point x="-450" y="1662"/>
+      <point x="-369" y="1662" type="qcurve" smooth="yes"/>
+      <point x="-150" y="1662"/>
+      <point x="-150" y="1900" type="qcurve"/>
+      <point x="100" y="1900" type="line"/>
+      <point x="100" y="1500"/>
+      <point x="-369" y="1500" type="qcurve" smooth="yes"/>
+      <point x="-760" y="1500"/>
+    </contour>
+  </outline>
+</glyph>

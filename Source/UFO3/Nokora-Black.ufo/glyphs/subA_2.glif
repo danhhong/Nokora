@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="subA2" format="2">
+  <advance width="0"/>
+  <anchor x="-1950" y="0" name="_Anchor-0"/>
+  <outline>
+    <contour>
+      <point x="-580" y="-346" type="line"/>
+      <point x="-480" y="-346" type="line"/>
+      <point x="-480" y="-50" type="line"/>
+      <point x="-100" y="-50" type="line"/>
+      <point x="-100" y="-470" type="line"/>
+      <point x="-580" y="-470" type="line"/>
+    </contour>
+    <contour>
+      <point x="-1300" y="-346" type="line"/>
+      <point x="-1200" y="-346" type="line"/>
+      <point x="-1200" y="-50" type="line"/>
+      <point x="-820" y="-50" type="line"/>
+      <point x="-820" y="-470" type="line"/>
+      <point x="-1300" y="-470" type="line"/>
+    </contour>
+    <contour>
+      <point x="-850" y="-136" type="line"/>
+      <point x="-450" y="-136" type="line"/>
+      <point x="-450" y="-288" type="line"/>
+      <point x="-850" y="-288" type="line"/>
+    </contour>
+  </outline>
+</glyph>

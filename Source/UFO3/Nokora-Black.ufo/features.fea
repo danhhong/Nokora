@@ -1,0 +1,779 @@
+languagesystem khmr dflt;
+
+# GSUB
+# =============================================================================
+# BASIC KHMER SHAPING LOOKUPS
+# Handles vowel decomposition, sub-consonant formation (Coeng), and mark ligatures.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 1. Above-Base Forms (abvf)
+# Normalizes split vowel U+17BE (OE ើ) into above-base mark U+17B8 (II ី)
+# after its pre-base element (e-like stroke) has been handled/reordered.
+# -----------------------------------------------------------------------------
+lookup abvfAboveBaseFormsinKhmerlookup0 {
+    lookupflag 0;
+    sub uni17BE by uni17B8;
+} abvfAboveBaseFormsinKhmerlookup0;
+
+
+# -----------------------------------------------------------------------------
+# 2. Post-Base Substitutions (psts)
+# Maps dependent vowels (ឿ U+17BF, ៀ U+17C0, ោ U+17C4, ៅ U+17C5) to their 
+# standalone post-base glyph pieces (.right / aa-like stroke U+17B6).
+# -----------------------------------------------------------------------------
+lookup pstsPostBaseSubstitutionsinKhmerlookup1 {
+    lookupflag 0;
+    sub uni17BF by uni17BF.right;
+    sub uni17C0 by uni17C0.right;
+    sub uni17C4 by uni17B6;
+    sub uni17C5 by uni17C5.right;
+} pstsPostBaseSubstitutionsinKhmerlookup1;
+
+
+# -----------------------------------------------------------------------------
+# 3. Below-Base Forms (blwf)
+# Forms standard below-base sub-consonants (Chheung / Coeng):
+# Replaces [COENG U+17D2 + Consonant] with below-base ligature glyphs (subXX).
+# -----------------------------------------------------------------------------
+lookup blwfBelowBaseFormsinKhmerlookup2 {
+    lookupflag 0;
+    sub uni17D2 uni1780 by sub80;  # Coeng Ka
+    sub uni17D2 uni1781 by sub81;  # Coeng Kha
+    sub uni17D2 uni1782 by sub82;  # Coeng Ko
+    sub uni17D2 uni1784 by sub84;  # Coeng Ngo
+    sub uni17D2 uni1785 by sub85;  # Coeng Ca
+    sub uni17D2 uni1786 by sub86;  # Coeng Cha
+    sub uni17D2 uni1787 by sub87;  # Coeng Co
+    sub uni17D2 uni1789 by sub89;  # Coeng Nyo
+    sub uni17D2 uni178A by sub8A;  # Coeng Da
+    sub uni17D2 uni178B by sub8B;  # Coeng Ttha
+    sub uni17D2 uni178C by sub8C;  # Coeng Dda
+    sub uni17D2 uni178E by sub8E;  # Coeng Nna
+    sub uni17D2 uni178F by sub8F;  # Coeng Ta
+    sub uni17D2 uni1790 by sub90;  # Coeng Tha
+    sub uni17D2 uni1791 by sub91;  # Coeng To
+    sub uni17D2 uni1792 by sub92;  # Coeng Tho
+    sub uni17D2 uni1793 by sub93;  # Coeng No
+    sub uni17D2 uni1795 by sub95;  # Coeng Pha
+    sub uni17D2 uni1796 by sub96;  # Coeng Pho
+    sub uni17D2 uni1797 by sub97;  # Coeng Pho
+    sub uni17D2 uni1798 by sub98;  # Coeng Mo
+    sub uni17D2 uni179B by sub9B;  # Coeng Lo
+    sub uni17D2 uni179C by sub9C;  # Coeng Vo
+    sub uni17D2 uni17A0 by subA0;  # Coeng Ha
+    sub uni17D2 uni17A2 by subA2;  # Coeng Qa
+} blwfBelowBaseFormsinKhmerlookup2;
+
+
+# ------------------------------------------------------------------------------
+# 4. Post-Base Forms (pstf)
+# Forms right-hanging / post-base sub-consonants (Coeng with right ascending tails):
+# Replaces [COENG U+17D2 + Consonant] for Kho, Chho, Ttho, Ba, Yo, Sa.
+# ------------------------------------------------------------------------------
+lookup pstfPostBaseFormsinKhmerlookup3 {
+    lookupflag 0;
+    sub uni17D2 uni1783 by sub83;  # Coeng Kho
+    sub uni17D2 uni1788 by sub88;  # Coeng Chho
+    sub uni17D2 uni178D by sub8D;  # Coeng Ttho
+    sub uni17D2 uni1794 by sub94;  # Coeng Ba
+    sub uni17D2 uni1799 by sub99;  # Coeng Yo
+    sub uni17D2 uni179F by sub9F;  # Coeng Sa
+} pstfPostBaseFormsinKhmerlookup3;
+
+
+# ------------------------------------------------------------------------------
+# 5. Pre-Base Forms (pref)
+# Forms the reordered pre-base sub-consonant Coeng Ro (្រ):
+# Replaces [COENG U+17D2 + RO U+179A] with sub9A (placed left of the syllable).
+# ------------------------------------------------------------------------------
+lookup prefPreBaseFormsinKhmerlookup4 {
+    lookupflag 0;
+    sub uni17D2 uni179A by sub9A;  # Coeng Ro
+} prefPreBaseFormsinKhmerlookup4;
+
+
+# ------------------------------------------------------------------------------
+# 6. Above-Base Substitutions (abvs)
+# Handles mark-to-mark above ligatures:
+# Merges vowel I (U+17B7 ិ) + Toandakhiat (U+17CD ៍) into single glyph to 
+# resolve anchor positioning and vertical metric collision.
+# ------------------------------------------------------------------------------
+lookup abvsAboveBaseSubstitutionsinKhmerlookup5 {
+    lookupflag 0;
+    sub uni17B7 uni17CD by uni17B7_17CD;
+} abvsAboveBaseSubstitutionsinKhmerlookup5;
+
+# =============================================================================
+# END BASIC KHMER SHAPING LOOKUPS
+# =============================================================================
+
+# =============================================================================
+# Feature: psts (Post-Base Substitutions)
+# Context: Khmer dependent vowels U+17BF (ឿ - YA) and U+17C0 (ៀ - IE)
+# Purpose: Substitute the right-hand piece (.right) with an extended / lowered 
+#          variant (.b) when preceding glyph is a descending base or a sub-consonant 
+#          (co-eng), preventing glyph overlap in clusters like "ក្បឿង" (kbaeung).
+# =============================================================================
+lookup pstsPostBaseSubstitutionsinKhmerlookup6 {
+  lookupflag 0;
+    sub [uni1780 uni1781 uni1782 uni1783 uni1784 uni1785 uni1786 uni1787 uni1788 
+        uni1789 uni178A uni178B uni178C uni178D uni178F uni1790 uni1791 
+        uni1792 uni1793 uni1794 uni1795 uni1796 uni1797 uni1798 uni1799 uni179A 
+        uni179B uni179C uni179D uni179E uni17A0 uni17A1 uni17A2] 
+    [sub80 sub81 sub82 sub83 sub84 sub85 sub86 sub87 sub88 
+        	sub89 sub8A sub8B sub8C sub8D sub8E sub8F sub90 sub91 sub92 
+        	sub93 sub94 sub95 sub96 sub97 sub98 sub99 sub9B sub9C sub9F 
+	    ubA0 subA2 ] [uni17BF.right uni17C0.right ]'  by [uni17BF.b uni17C0.b ];
+	sub [uni1789 uni17A1] [uni17BF.right uni17C0.right ]'  by [uni17BF.b uni17C0.b ];
+} pstsPostBaseSubstitutionsinKhmerlookup6;
+# =============================================================================
+
+# =============================================================================
+# 1. Pre-Base Substitutions (pres)
+# Context: Syllables with reordered Coeng Ro (sub9A ្រ) + Base Consonant + Sub-consonant (Coeng).
+# Purpose: Substitute Coeng Ro with a deep/extended variant (sub9A.b) when the 
+#          syllable contains a below-base coeng, wrapping underneath the lower 
+#          cluster without stroke collision.
+# =============================================================================
+
+# Classes for Contextual Matching
+@pres_base_consonants = [
+    uni1780 uni1781 uni1782 uni1783 uni1784 uni1785 uni1786 uni1787 uni1788 
+    uni1789 uni178A uni178B uni178C uni178D uni178E uni178F uni1790 uni1791 
+    uni1792 uni1793 uni1794 uni1795 uni1796 uni1797 uni1798 uni1799 uni179A 
+    uni179B uni179C uni179D uni179E uni17A0 uni17A1 uni17A2
+];
+
+@pres_below_marks = [
+    sub80 sub81 sub82 sub84 sub85 sub86 sub87 sub89 sub8A sub8B sub8C sub8E 
+    sub8F sub90 sub91 sub92 sub93 sub95 sub96 sub97 sub98 sub9B sub9C subA0 
+    subA2
+];
+
+lookup presPreBaseSubstitutionsinKhmerlookup7 {
+    lookupflag 0;
+
+    # Swap Coeng Ro to low-sweep form (.b) in three-glyph stack: [Coeng Ro] + [Base] + [Sub-consonant]
+    sub sub9A' @pres_base_consonants @pres_below_marks by sub9A.b;
+
+} presPreBaseSubstitutionsinKhmerlookup7;
+
+
+# =============================================================================
+# 2. Above-Base Shifted Variants (Single Substitution)
+# Context: Above-base vowel signs (ិ, ី, ឹ, ឺ), Nikahit (ំ), Muusikoatoan (៉), 
+#          Toandakhiat (៍), and the combined ligature (ិ៍).
+# Purpose: Substitute standard above marks with right-shifted / re-anchored variants (.r)
+#          (typically invoked contextually to avoid collision with ascending stems 
+#          like 'ba' uni1794, tall base stems, or right-hanging post-base forms).
+# =============================================================================
+lookup SingleSubstitutionlookup19 {
+    lookupflag 0;
+
+    sub uni17B7      by uni17B7.r;       # Vowel Sign I (shifted)
+    sub uni17B8      by uni17B8.r;       # Vowel Sign II (shifted)
+    sub uni17B9      by uni17B9.r;       # Vowel Sign Y (shifted)
+    sub uni17BA      by uni17BA.r;       # Vowel Sign YY (shifted)
+    sub uni17C6      by uni17C6.r;       # Nikahit / Anusvara (shifted)
+    sub uni17C9      by uni17C9.r;       # Muusikoatoan (shifted)
+    sub uni17CD      by uni17CD.r;       # Toandakhiat / Asat (shifted)
+    sub uni17B7_17CD by uni17B7_17CD.r;  # Ligature Vowel I + Toandakhiat (shifted)
+
+} SingleSubstitutionlookup19;
+
+# =============================================================================
+# 1. Above-Base Contextual Mark Positioning (abvs)
+# Context: Consonants 'Ro' (U+179A) and 'Vo' (U+179C) with narrow / distinct top profiles,
+#          appearing either directly before an above mark or with an intervening below mark.
+# Purpose: Contextually trigger SingleSubstitutionlookup19 to shift above-base marks
+#          (vowels, signs, and ligatures) rightward (.r) for optical balance and stem alignment.
+# =============================================================================
+
+@abvs_offset_bases = [
+    uni179A uni179C
+];
+
+@abvs_below_marks = [
+    sub80 sub81 sub82 sub84 sub85 sub86 sub87 sub89 sub8A sub8B sub8C sub8E 
+    sub8F sub90 sub91 sub92 sub93 sub95 sub96 sub97 sub98 sub9B sub9C subA0 
+    subA2
+];
+
+@abvs_target_marks = [
+    uni17B7 uni17B8 uni17B9 uni17BA uni17C6 uni17C9 uni17CD uni17B7_17CD
+];
+
+lookup abvsAboveBaseSubstitutionsinKhmerlookup8 {
+    lookupflag 0;
+
+    # 1-step context: [Ro / Vo] + [Above Mark]
+    sub @abvs_offset_bases @abvs_target_marks' lookup SingleSubstitutionlookup19;
+
+    # 2-step context: [Ro / Vo] + [Below-base Sub-consonant] + [Above Mark]
+    sub @abvs_offset_bases @abvs_below_marks @abvs_target_marks' lookup SingleSubstitutionlookup19;
+
+} abvsAboveBaseSubstitutionsinKhmerlookup8;
+
+# =============================================================================
+# Feature: blws (Nyo ញ Foot Handling)
+# Step 1: Cut native foot of Nyo (uni1789.a) when followed by any sub-consonant.
+# Step 2: Swap Coeng Nyo to full-foot variant (sub89.a) under uni1789.a for "ញ្ញ".
+# =============================================================================
+
+lookup blwsBelowBaseSubstitutionsinKhmerlookup9 {
+    lookupflag 0;
+    sub uni1789' @abvs_below_marks by uni1789.a;
+} blwsBelowBaseSubstitutionsinKhmerlookup9;
+
+lookup blwsBelowBaseSubstitutionsinKhmerlookup10 {
+    lookupflag 0;
+    sub uni1789.a sub89' by sub89.a;
+} blwsBelowBaseSubstitutionsinKhmerlookup10;
+# =============================================================================
+
+# ==============================================================================
+# Feature: abvs (Register Shifter Conversion to Below-Base Form: Treisap / Muusikatoan)
+# Rule: In Khmer orthography, when register shifter signs (U+17C9 ៉ or U+17CA ៊) 
+#       co-occur with top marks/vowels (ិ, ី, ឹ, ឺ, ំ, ៍...) or compound vowel "ាំ" (U+17B6 + U+17C6),
+#       they convert to vowel sign U (U+17BB ុ) below the base to avoid vertical stacking collisions.
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Muusikatoan (U+17C9 ៉) -> Subscript form (U+17BB ុ)
+# ------------------------------------------------------------------------------
+lookup SingleSubstitutionlookup22 {
+    lookupflag 0;
+    sub uni17C9   by uni17BB;
+    sub uni17C9.r by uni17BB;
+} SingleSubstitutionlookup22;
+
+lookup abvsAboveBaseSubstitutionsinKhmerlookup11 {
+    lookupflag 0;
+
+    # Context 1: [Base Consonant] + [Muusikatoan]' + [Above Mark / Vowel]
+    sub [uni1780 uni1781 uni1782 uni1783 uni1784 uni1785 uni1786 uni1787 uni1788 
+         uni1789 uni178A uni178B uni178C uni178D uni178E uni178F uni1790 
+         uni1791 uni1792 uni1793 uni1794 uni1795 uni1796 uni1797 uni1798 
+         uni1799 uni179A uni179B uni179C uni179D uni179E uni179F uni17A0 
+         uni17A1 uni17A2] 
+        [uni17C9 uni17C9.r]' lookup SingleSubstitutionlookup22 
+        [uni17B7 uni17B8 uni17B9 uni17BA uni17C6 uni17C9 uni17CA uni17CC uni17CD 
+         uni17CE uni17CF uni17D0];
+
+    # Context 2: [Muusikatoan]' + [Vowel AA U+17B6] + [Nikahit U+17C6] ("-ាំ")
+    sub [uni17C9 uni17C9.r]' lookup SingleSubstitutionlookup22 [uni17B6] [uni17C6];
+
+} abvsAboveBaseSubstitutionsinKhmerlookup11;
+
+
+# ------------------------------------------------------------------------------
+# 2. Treisap (U+17CA ៊) -> Subscript form (U+17BB ុ)
+# Specific to bases: Sa (uni179F), Ha (uni17A0), and Coeng Sa (sub9F)
+# ------------------------------------------------------------------------------
+lookup SingleSubstitutionlookup23 {
+    lookupflag 0;
+    sub uni17CA by uni17BB;
+} SingleSubstitutionlookup23;
+
+lookup abvsAboveBaseSubstitutionsinKhmerlookup12 {
+    lookupflag 0;
+
+    # Context 1: [Sa / Ha] + [Treisap]' + [Above Vowels I, II, Y, YY]
+    sub [uni179F uni17A0] [uni17CA]' lookup SingleSubstitutionlookup23 [uni17B7 uni17B8 uni17B9 uni17BA];
+
+    # Context 2: [Coeng Sa] + [Treisap]' + [Above Vowels I, II, Y, YY]
+    sub [sub9F]           [uni17CA]' lookup SingleSubstitutionlookup23 [uni17B7 uni17B8 uni17B9 uni17BA];
+
+    # Context 3: [Sa / Ha] + [Treisap]' + [Vowel AA U+17B6] + [Nikahit U+17C6] ("-ាំ")
+    sub [uni179F uni17A0] [uni17CA]' lookup SingleSubstitutionlookup23 [uni17B6] [uni17C6];
+
+} abvsAboveBaseSubstitutionsinKhmerlookup12;
+# ==============================================================================
+
+
+# ==============================================================================
+# Feature: blws (Below-Base Substitutions)
+# Context: Below-base vowel signs U+17BB (U ុ), U+17BC (UU ូ), and U+17BD (UA ួ)
+#          occurring after sub-consonants (co-eng) or descending bases.
+# Purpose: Substitute below-base vowels with lowered / deep-drop variants (.b) 
+#          to prevent vertical collision with deep sub-consonant stacks,
+#          including explicit handling for double-Nyo (ញ + ្ញ -> ញ្ញ) clusters.
+# ==============================================================================
+
+lookup blwsBelowBaseSubstitutionsinKhmerlookup13 {
+    lookupflag 0;
+
+    # 1. Direct multi-glyph context for double-Nyo clusters (ញ្ញ + Below Vowel):
+    # Matches base Nyo + coeng Nyo variations regardless of prior substitution state.
+    sub uni1789.a sub89   [uni17BB uni17BC uni17BD]' by [uni17BB.b uni17BC.b uni17BD.b];
+    sub uni1789.a sub89.a [uni17BB uni17BC uni17BD]' by [uni17BB.b uni17BC.b uni17BD.b];
+    sub uni1789   sub89   [uni17BB uni17BC uni17BD]' by [uni17BB.b uni17BC.b uni17BD.b];
+
+    # 2. General rule: Lower below-base vowels under all standard co-eng and low bases.
+    sub [uni1789 uni17A1 sub80 sub81 sub82 sub83 sub84 sub85 sub86 sub87 sub88 
+         sub89 sub8A sub8B sub8C sub8D sub8E sub8F sub90 sub91 sub92 
+         sub93 sub94 sub95 sub96 sub97 sub98 sub99 sub9B sub9C sub9F 
+         subA0 subA2 sub89.a] [uni17BB uni17BC uni17BD]' by [uni17BB.b uni17BC.b uni17BD.b];
+
+} blwsBelowBaseSubstitutionsinKhmerlookup13;
+# =============================================================================
+
+# ==============================================================================
+# Feature: abvs (Above-Base Substitutions)
+# Context: Khmer register shifter Treisap (U+17CA ៊) directly followed by 
+#          above-base vowels or marks (ិ, ី, ឹ, ឺ, ំ, ៍/៌, ័/៎/័...).
+# Purpose: Substitute standard above-base marks with raised / elevated variants (.a)
+#          to stack cleanly above Treisap and avoid vertical glyph overlap.
+# ==============================================================================
+
+lookup abvsAboveBaseSubstitutionsinKhmerlookup14 {
+    lookupflag 0;
+
+    # Shift top marks to higher anchor variants (.a) when stacked on top of Treisap
+    sub [uni17CA] [uni17B7   uni17B8   uni17B9   uni17BA   uni17C6   uni17CE   uni17D0]' 
+               by [uni17B7.a uni17B8.a uni17B9.a uni17BA.a uni17C6.a uni17CE.a uni17D0.a];
+
+} abvsAboveBaseSubstitutionsinKhmerlookup14;
+# =============================================================================
+
+# ==============================================================================
+# Feature: psts (Post-Base Substitutions)
+# Context: Double sub-consonant clusters (co-eng stack): 
+#          [Below-base Coeng] + [Post-base / Right-hanging Coeng]'
+# Purpose: Substitute right-hanging sub-consonants (Kho, Chho, Ttho, Ba, Yo, Sa)
+#          with lowered / extended variants (.b) when preceded by a standard
+#          below-base coeng, preventing glyph overlap in multi-tier sub stacks.
+# ==============================================================================
+
+lookup pstsPostBaseSubstitutionsinKhmerlookup15 {
+    lookupflag 0;
+
+    # Lower the second, right-hanging coeng (.b) when stacked under a below-base coeng
+    sub [sub80 sub81 sub82 sub84 sub85 sub86 sub87 sub89 sub8A sub8B sub8C sub8E 
+         sub8F sub90 sub91 sub92 sub93 sub95 sub96 sub97 sub98 sub9B 
+         sub9C subA0 subA2] 
+        [sub83   sub88   sub8D   sub94   sub99   sub9F]' 
+     by [sub83.b sub88.b sub8D.b sub94.b sub99.b sub9F.b];
+
+} pstsPostBaseSubstitutionsinKhmerlookup15;
+# =============================================================================
+
+
+# ==============================================================================
+# Feature: blws (Below-Base Substitutions) / Consonant-Vowel Ligature Transformation
+# Context: Khmer consonant 'Ba' (U+1794 ប) followed by post-base vowel strokes:
+#          Vowel Sign AA (U+17B6 ា) or Vowel Sign AU right-wing (uni17C5.right ៅ).
+# Purpose: Substitute full-form 'Ba' (uni1794) with its open / connecting ligature 
+#          variant (uni1794.a បា -> "បា" ligature shape) to avoid confusion with 
+#          the independent vowel QA (U+17A2 ឬ/ប+ា) and establish a seamless stroke junction.
+# Handles:
+#   1. Direct sequence: [Ba]' + [AA / AU.right]
+#   2. Intervening mark: [Ba]' + [Above Mark] + [AA / AU.right]
+#   3. Intervening coeng: [Ba]' + [Sub-consonant] + [AA / AU.right]
+# ==============================================================================
+
+lookup SingleSubstitutionlookup27 {
+    lookupflag 0;
+    sub uni1794 by uni1794.a;  # Ba connecting form
+} SingleSubstitutionlookup27;
+
+lookup blwsBelowBaseSubstitutionsinKhmerlookup16 {
+    lookupflag 0;
+
+    # 1. Direct follow: [Ba]' + [Vowel AA / AU.right]
+    sub [uni1794]' lookup SingleSubstitutionlookup27 
+        [uni17B6 uni17C5.right];
+
+    # 2. With intervening above-base mark: [Ba]' + [Above Mark] + [Vowel AA / AU.right]
+    sub [uni1794]' lookup SingleSubstitutionlookup27 
+        [uni17B7 uni17B8 uni17B9 uni17BA uni17C6 uni17C9 uni17CA uni17CC uni17CD 
+         uni17CE uni17CF uni17D0] 
+        [uni17B6 uni17C5.right];
+
+    # 3. With intervening below-base coeng: [Ba]' + [Sub-consonant] + [Vowel AA / AU.right]
+    sub [uni1794]' lookup SingleSubstitutionlookup27 
+        [sub80 sub81 sub82 sub84 sub85 sub86 sub87 sub89 sub8A sub8B sub8C sub8E 
+         sub8F sub90 sub91 sub92 sub93 sub95 sub96 sub97 sub98 sub9B 
+         sub9C subA0 subA2] 
+        [uni17B6 uni17C5.right];
+
+} blwsBelowBaseSubstitutionsinKhmerlookup16;
+# =============================================================================
+
+
+# ==============================================================================
+# OPENTYPE GSUB FEATURE DEFINITIONS (SCRIPT: KHMER)
+# Maps layout features to their corresponding shaping and contextual lookups.
+# Standard execution sequence in Khmer Shaper:
+#   pref -> blwf -> pstf -> pres -> blws -> abvf -> abvs -> psts
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Pre-Base Forms (pref)
+# Converts [Coeng + Ro] (uni17D2 + uni179A) into reordered pre-base Coeng Ro (sub9A).
+# ------------------------------------------------------------------------------
+feature pref {
+    script khmr;
+    language dflt;
+    lookup prefPreBaseFormsinKhmerlookup4;
+} pref;
+
+
+# ------------------------------------------------------------------------------
+# Below-Base Forms (blwf)
+# Forms primary below-base sub-consonants (Coeng ligatures: sub80..subA2).
+# ------------------------------------------------------------------------------
+feature blwf {
+    script khmr;
+    language dflt;
+    lookup blwfBelowBaseFormsinKhmerlookup2;
+} blwf;
+
+
+# ------------------------------------------------------------------------------
+# Post-Base Forms (pstf)
+# Forms right-hanging / post-base sub-consonants (Kho, Chho, Ttho, Ba, Yo, Sa).
+# ------------------------------------------------------------------------------
+feature pstf {
+    script khmr;
+    language dflt;
+    lookup pstfPostBaseFormsinKhmerlookup3;
+} pstf;
+
+
+# ------------------------------------------------------------------------------
+# Pre-Base Substitutions (pres)
+# Contextual variants for pre-base elements:
+# - lookup7: Lowers Coeng Ro sweep (sub9A.b) under clusters containing coeng.
+# ------------------------------------------------------------------------------
+feature pres {
+    script khmr;
+    language dflt;
+    lookup presPreBaseSubstitutionsinKhmerlookup7;
+} pres;
+
+
+# ------------------------------------------------------------------------------
+# Below-Base Substitutions (blws)
+# Contextual below-base shaping and collision handling:
+# - lookup9 : Cuts base foot of Nyo (uni1789.a) above any sub-consonant.
+# - lookup10: Substitutes full-foot Coeng Nyo (sub89.a) under uni1789.a (ញ្ញ).
+# - lookup13: Lowers below-base vowels (uni17BB.b..uni17BD.b) under deep stacks.
+# - lookup16: Converts Ba to open form (uni1794.a) before vowel AA / AU right piece.
+# ------------------------------------------------------------------------------
+feature blws {
+    script khmr;
+    language dflt;
+    lookup blwsBelowBaseSubstitutionsinKhmerlookup9;
+    lookup blwsBelowBaseSubstitutionsinKhmerlookup10;
+    lookup blwsBelowBaseSubstitutionsinKhmerlookup13;
+    lookup blwsBelowBaseSubstitutionsinKhmerlookup16;
+} blws;
+
+
+# ------------------------------------------------------------------------------
+# Above-Base Forms (abvf)
+# Normalizes decomposed vowels:
+# - lookup0: Substitutes split vowel OE (uni17BE) with top mark II (uni17B8).
+# ------------------------------------------------------------------------------
+feature abvf {
+    script khmr;
+    language dflt;
+    lookup abvfAboveBaseFormsinKhmerlookup0;
+} abvf;
+
+
+# ------------------------------------------------------------------------------
+# Above-Base Substitutions (abvs)
+# Contextual adjustments, ligatures, and register-shifter conversions:
+# - lookup5 : Ligature for Vowel I + Toandakhiat (uni17B7_17CD).
+# - lookup8 : Shifts top marks rightward (.r) over Ro (uni179A) and Vo (uni179C).
+# - lookup11: Converts Muusikatoan (uni17C9) to below-base U (uni17BB) before top marks.
+# - lookup12: Converts Treisap (uni17CA) to below-base U (uni17BB) on Sa/Ha before top marks.
+# - lookup14: Elevates top marks (.a) stacked over Treisap (uni17CA).
+# ------------------------------------------------------------------------------
+feature abvs {
+    script khmr;
+    language dflt;
+    lookup abvsAboveBaseSubstitutionsinKhmerlookup5;
+    lookup abvsAboveBaseSubstitutionsinKhmerlookup8;
+    lookup abvsAboveBaseSubstitutionsinKhmerlookup11;
+    lookup abvsAboveBaseSubstitutionsinKhmerlookup12;
+    lookup abvsAboveBaseSubstitutionsinKhmerlookup14;
+} abvs;
+
+
+# ------------------------------------------------------------------------------
+# Post-Base Substitutions (psts)
+# Final post-base decomposition and multi-tier coeng placement:
+# - lookup1 : Decomposes vowels (uni17BF, uni17C0, uni17C4, uni17C5) into right pieces.
+# - lookup6 : Lengthens right vowel pieces (.b) after deep coeng / low bases.
+# - lookup15: Drops right-hanging coeng (.b) in double sub-consonant stacks.
+# ------------------------------------------------------------------------------
+feature psts {
+    script khmr;
+    language dflt;
+    lookup pstsPostBaseSubstitutionsinKhmerlookup1;
+    lookup pstsPostBaseSubstitutionsinKhmerlookup6;
+    lookup pstsPostBaseSubstitutionsinKhmerlookup15;
+} psts;
+
+# GPOS 
+
+# ==============================================================================
+# GPOS: Mark-to-Base Attachment (blwm - Below-Base Mark)
+# Base: Consonant 'Nna' (U+178E ណ - uni178E)
+# Purpose: Attach below-base marks and sub-consonants (co-eng) to base 'Nna'.
+# Anchor alignment:
+#   - Base anchor: (0, 0)
+#   - Below-base vowels (uni17BB, uni17BC, uni17BD): X offset -1900
+#   - Sub-consonants (sub80..subA2): X offset -1950
+# ==============================================================================
+
+lookup blwmBelowBaseMarkinKhmerlookup0 {
+    lookupflag 0;
+
+    # Mark definitions for attachment class @Anchor0
+    # Group 1: Below-base vowel signs (U, UU, UA)
+    markClass [uni17BB uni17BC uni17BD] <anchor -1900 0> @Anchor0;
+
+    # Group 2: Standard below-base sub-consonants (Coeng)
+    markClass [sub80 sub81 sub82 sub84 sub85 sub86 sub87 sub89 sub8A sub8B 
+               sub8C sub8E sub8F sub90 sub91 sub92 sub93 sub95 sub96 sub97 
+               sub98 sub9B sub9C subA0 subA2] <anchor -1950 0> @Anchor0;
+
+    # Attachment point on base consonant Nna (uni178E)
+    pos base [uni178E] <anchor 0 0> mark @Anchor0;
+
+} blwmBelowBaseMarkinKhmerlookup0;
+# =============================================================================
+
+# ==============================================================================
+# GPOS: Pairwise Kerning / Positioning (kern / blwm)
+# Context: Deep syllable stacks, e.g., "ក្នុ" (Ka + Coeng No + Vowel U)
+# Structure: [Sub-consonant / Coeng] + [Lowered Below-base Vowel (.b)]
+# Purpose: Define baseline pair positioning between below-base sub-consonants 
+#          (@kern_first) and lowered vowel variants (@kern_second: uni17BB.b, 
+#          uni17BC.b, uni17BD.b).
+# Note: Currently set to neutral value record <0 0 0 0> as an anchor/override placeholder.
+# ==============================================================================
+
+# Class 1: All standard below-base sub-consonants + double-Nyo foot variant (sub89.a)
+@kern_first = [
+    sub80 sub81 sub82 sub84 sub85 sub86 sub87 sub89 sub8A sub8B
+    sub8C sub8E sub8F sub90 sub91 sub92 sub93 sub95 sub96 sub97
+    sub98 sub9B sub9C subA0 subA2 sub89.a
+];
+
+# Class 2: Deep-drop / lowered below-base vowel variants (U, UU, UA)
+@kern_second = [
+    uni17BB.b uni17BC.b uni17BD.b
+];
+
+lookup PairwisePositioningkerninglookup5 {
+    lookupflag 0;
+
+    # Pair adjustment for sub-consonant + lowered vowel clusters
+    pos @kern_first @kern_second <0 0 0 0>;
+
+} PairwisePositioningkerninglookup5;
+# =============================================================================
+
+# ==============================================================================
+# GPOS: Contextual Below-Base Positioning (blwm)
+# Target Cluster: Consonant 'Nna' (U+178E ណ) + [Sub-consonant] + [Lowered Vowel (.b)]
+# Purpose: Contextually shift second-tier below-base vowels (uni17BB.b, uni17BC.b, uni17BD.b)
+#          600 units to the left to correctly center them beneath wide-base 'Nna' (uni178E)
+#          stacks, while triggering pairwise positioning on the intermediate sub-consonant.
+# ==============================================================================
+
+# 1. Single-dimension positioning adjustment: Shifts lowered below-base vowels leftward
+lookup blwmShiftDown600 {
+    lookupflag 0;
+    pos uni17BB.b <-600 0 0 0>;  # Shift vowel U (.b) left by 600 FUnit
+    pos uni17BC.b <-600 0 0 0>;  # Shift vowel UU (.b) left by 600 FUnit
+    pos uni17BD.b <-600 0 0 0>;  # Shift vowel UA (.b) left by 600 FUnit
+} blwmShiftDown600;
+
+
+# 2. Contextual positioning rule:
+# Context: [Base Nna] + [Sub-consonant]' + [Lowered Vowel]'
+# Actions:
+#   - Intermediate coeng: Evaluated via PairwisePositioningkerninglookup5
+#   - Terminal lowered vowel: Shifted left via blwmShiftDown600
+lookup blwmBelowBaseMarkinKhmerlookup1 {
+    lookupflag 0;
+
+    pos [uni178E] 
+        [sub80 sub81 sub82 sub84 sub85 sub86 sub87 sub89 sub8A sub8B sub8C sub8E 
+         sub8F sub90 sub91 sub92 sub93 sub95 sub96 sub97 sub98 sub9B 
+         sub9C subA0 subA2]' lookup PairwisePositioningkerninglookup5 
+        [uni17BB.b uni17BC.b uni17BD.b]' lookup blwmShiftDown600;
+
+} blwmBelowBaseMarkinKhmerlookup1;
+# =============================================================================
+
+# ==============================================================================
+# GPOS: Below-Base Pair Positioning (blwm)
+# Bases: Narrow consonants 'Ro' (U+179A រ) and 'Vo' (U+179C វ)
+# Purpose: Contextually shift below-base marks rightward to center them beneath 
+#          the distinctive narrow/curved stems of Ro and Vo:
+#          - Sub-consonants (@blwm_marks2): shifted +300 FUnits horizontally.
+#          - Below-base vowels UU (U+17BC ូ) & UA (U+17BD ួ): shifted +200 FUnits horizontally.
+# ==============================================================================
+
+# Standard below-base sub-consonants (Coeng)
+@blwm_marks2 = [
+    sub80 sub81 sub82 sub84 sub85 sub86 sub87 sub89 sub8A sub8B
+    sub8C sub8E sub8F sub90 sub91 sub92 sub93 sub95 sub96 sub97
+    sub98 sub9B sub9C subA0 subA2
+];
+
+lookup blwmBelowBaseMarkinKhmerlookup2 {
+    lookupflag 0;
+
+    # Shift sub-consonants +300 units to the right under Ro and Vo
+    pos uni179A <0 0 0 0> @blwm_marks2 <300 0 0 0>;
+    pos uni179C <0 0 0 0> @blwm_marks2 <300 0 0 0>;
+
+    # Shift below vowels UU (uni17BC) and UA (uni17BD) +200 units to the right
+    pos uni179A <0 0 0 0> uni17BC <200 0 0 0>;
+    pos uni179C <0 0 0 0> uni17BC <200 0 0 0>;
+    pos uni179A <0 0 0 0> uni17BD <200 0 0 0>;
+    pos uni179C <0 0 0 0> uni17BD <200 0 0 0>;
+
+} blwmBelowBaseMarkinKhmerlookup2;
+# =============================================================================
+
+# ==============================================================================
+# GPOS: Below-Base Pair Positioning (blwm) - Tier-2 Sub-consonant Stacking
+# Example: Multi-coeng clusters such as "ច្ត្វ" (Ca + Coeng Ta + Coeng Vo)
+# Purpose: Vertically drop the second below-base sub-consonant by -500 FUnits
+#          when stacked beneath a preceding sub-consonant, preventing glyph
+#          overlap in two-level sub-base consonant stacks.
+# ==============================================================================
+
+# Standard below-base sub-consonants (Coeng)
+@khmSubAll = [
+    sub80 sub81 sub82 sub84 sub85 sub86 sub87 sub89 sub8A 
+    sub8B sub8C sub8E sub8F sub90 sub91 sub92 sub93 sub95 
+    sub96 sub97 sub98 sub9B sub9C subA0 subA2
+];
+
+lookup blwmBelowBaseMarkinKhmerlookup3 {
+    lookupflag 0;
+
+    # Offset second sub-consonant downward by 500 units under first sub-consonant
+    pos @khmSubAll <0 0 0 0> @khmSubAll <0 -500 0 0>;
+
+} blwmBelowBaseMarkinKhmerlookup3;
+# =============================================================================
+
+# ==============================================================================
+# GPOS: Below-Base Pair Positioning (blwm) - Low/Right-Hanging Bases & Coeng Stacks
+# Bases: 
+#   - Right-hanging/post-base sub-consonants (@blwm_bases: Kho, Chho, Ttho, Ba, Yo, Sa)
+#   - Inherent deep-descender consonant base 'La' (U+17A1 ឡ - uni17A1)
+# Purpose: Vertically drop following below-base sub-consonants (@blwm_marks) by -500 
+#          FUnits to clear descending strokes and avoid collision in deep stacks.
+# ==============================================================================
+
+# Class 1: Post-base / right-hanging sub-consonants with descending tails
+@blwm_bases = [
+    sub83 sub88 sub8D sub94 sub99 sub9F
+];
+
+# Class 2: Standard below-base sub-consonants (Coeng)
+@blwm_marks = [
+    sub80 sub81 sub82 sub84 sub85 sub86 sub87 sub89 sub8A sub8B
+    sub8C sub8E sub8F sub90 sub91 sub92 sub93 sub95 sub96 sub97
+    sub98 sub9B sub9C subA0 subA2
+];
+
+lookup blwmBelowBaseMarkinKhmerlookup4 {
+    lookupflag 0;
+
+    # Offset sub-consonant down -500 units after a right-hanging sub-consonant
+    pos @blwm_bases <0 0 0 0> @blwm_marks <0 -500 0 0>;
+
+    # Offset sub-consonant down -500 units beneath descending base consonant La (uni17A1)
+    pos uni17A1     <0 0 0 0> @blwm_marks <0 -500 0 0>;
+
+} blwmBelowBaseMarkinKhmerlookup4;
+# =============================================================================
+
+
+# ==============================================================================
+# OPENTYPE GPOS FEATURE: blwm (Below-Base Mark Positioning)
+# Script: Khmer (khmr / dflt)
+# Sequence of Execution:
+#   - lookup0: Base attachment for wide consonant 'Nna' (uni178E) via @Anchor0.
+#   - lookup1: Left-shift adjustment (-600) for 2nd-tier below vowels on 'Nna' clusters.
+#   - lookup2: Right-shift adjustments (+300/+200) under narrow bases Ro (uni179A) & Vo (uni179C).
+#   - lookup3: Vertical drop (-500) for 2nd-tier sub-consonants under standard co-eng.
+#   - lookup4: Vertical drop (-500) for sub-consonants following post-base coeng / low base La (uni17A1).
+# ==============================================================================
+
+feature blwm {
+    script khmr;
+    language dflt;
+    lookup blwmBelowBaseMarkinKhmerlookup0;
+    lookup blwmBelowBaseMarkinKhmerlookup1;
+    lookup blwmBelowBaseMarkinKhmerlookup2;
+    lookup blwmBelowBaseMarkinKhmerlookup3;
+    lookup blwmBelowBaseMarkinKhmerlookup4;
+} blwm;
+
+
+# ==============================================================================
+# OPENTYPE GDEF TABLE: GlyphClassDef Definition
+# Categorizes font glyphs into standard classes for OpenType layout engines:
+#   Class 1: Base / Simple Glyphs  (@GDEF_Simple)
+#   Class 2: Ligature Glyphs       (empty / omitted)
+#   Class 3: Mark Glyphs           (@GDEF_Mark - below marks & standard co-eng)
+#   Class 4: Component Glyphs      (empty / omitted)
+# Used by layout shapers to filter and apply lookupflags (e.g., IgnoreMarks).
+# ==============================================================================
+
+# Class 1 (Base/Simple): Latin, punctuation, Khmer consonants, independent vowels,
+# symbols, numerals, post-base coeng, pre-base coeng, and contextual alternates.
+@GDEF_Simple = [
+    \.notdef \nonmarkingreturn \space \NULL \exclam \quotedbl 
+    \numbersign \dollar \percent \ampersand \quotesingle \parenleft \parenright 
+    \asterisk \plus \comma \hyphen \period \slash \zero \one \two \three \four \five 
+    \six \seven \eight \nine \colon \semicolon \less \equal \greater \question \at \A \B 
+    \C \D \E \F \G \H \I \J \K \L \M \N \O \P \Q \R \S \T \U \V \W \X \Y \Z \bracketleft \backslash 
+    \bracketright \asciicircum \underscore \grave \a \b \c \d \e \f \g \h \i \j \k \l \m \n \o 
+    \p \q \r \s \t \u \v \w \x \y \z \braceleft \bar \braceright \asciitilde \guillemotleft 
+    \guillemotright uni1780 uni1781 uni1782 uni1783 uni1784 uni1785 uni1786 
+    uni1787 uni1788 uni1789 uni178A uni178B uni178C uni178D uni178E uni178F 
+    uni1790 uni1791 uni1792 uni1793 uni1794 uni1795 uni1796 uni1797 uni1798 
+    uni1799 uni179A uni179B uni179C uni179D uni179E uni179F uni17A0 uni17A1 
+    uni17A2 uni17A3 uni17A4 uni17A5 uni17A6 uni17A7 uni17A8 uni17A9 uni17AA 
+    uni17AB uni17AC uni17AD uni17AE uni17AF uni17B0 uni17B1 uni17B2 uni17B3 
+    uni17B4 uni17B5 uni17B6 uni17B7 uni17B8 uni17B9 uni17BA uni17BE uni17BF 
+    uni17C0 uni17C1 uni17C2 uni17C3 uni17C4 uni17C5 uni17C6 uni17C7 uni17C8 
+    uni17C9 uni17CA uni17CB uni17CC uni17CD uni17CE uni17CF uni17D0 uni17D1 
+    uni17D2 uni17D3 uni17D4 uni17D5 uni17D6 uni17D7 uni17D8 uni17D9 uni17DA 
+    uni17DB uni17DC uni17DD uni17E0 uni17E1 uni17E2 uni17E3 uni17E4 uni17E5 
+    uni17E6 uni17E7 uni17E8 uni17E9 sub83 sub88 sub8D sub94 sub99 sub9A 
+    sub9F uni17BB.b uni17BC.b uni17BD.b uni17B7.a uni17B8.a uni17B9.a 
+    uni17BA.a uni17C6.a uni17CE.a uni17D0.a uni1789.a sub9A.b uni17BF.b 
+    uni17C0.b uni17B7_17CD uni17B7.r uni17B8.r uni17B9.r uni17BA.r 
+    uni17C6.r uni17C9.r uni17CD.r uni17B7_17CD.r sub89.a uni25CC sub83.b 
+    sub88.b sub8D.b sub94.b sub99.b sub9F.b uni17BF.right uni17C0.right 
+    uni17C5.right uni1794.a
+];
+
+# Class 3 (Mark): Below-base vowels (U, UU, UA) and standard below-base co-eng ligatures
+@GDEF_Mark = [
+    uni17BB uni17BC uni17BD sub80 sub81 sub82 sub84 sub85 sub86 
+    sub87 sub89 sub8A sub8B sub8C sub8E sub8F sub90 sub91 sub92 sub93 sub95 
+    sub96 sub97 sub98 sub9B sub9C subA0 subA2 sub89.a
+];
+
+table GDEF {
+    # Syntax: GlyphClassDef @Bases, @Ligatures, @Marks, @Components;
+    GlyphClassDef @GDEF_Simple, , @GDEF_Mark, ;
+} GDEF;
