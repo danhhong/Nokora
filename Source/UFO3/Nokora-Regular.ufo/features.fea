@@ -124,7 +124,7 @@ lookup pstsPostBaseSubstitutionsinKhmerlookup6 {
     [sub80 sub81 sub82 sub83 sub84 sub85 sub86 sub87 sub88 
         	sub89 sub8A sub8B sub8C sub8D sub8E sub8F sub90 sub91 sub92 
         	sub93 sub94 sub95 sub96 sub97 sub98 sub99 sub9B sub9C sub9F 
-	    ubA0 subA2 ] [uni17BF.right uni17C0.right ]'  by [uni17BF.b uni17C0.b ];
+	    subA0 subA2 ] [uni17BF.right uni17C0.right ]'  by [uni17BF.b uni17C0.b ];
 	sub [uni1789 uni17A1] [uni17BF.right uni17C0.right ]'  by [uni17BF.b uni17C0.b ];
 } pstsPostBaseSubstitutionsinKhmerlookup6;
 # =============================================================================
@@ -761,7 +761,7 @@ feature blwm {
     sub9F uni17BB.b uni17BC.b uni17BD.b uni17B7.a uni17B8.a uni17B9.a 
     uni17BA.a uni17C6.a uni17CE.a uni17D0.a uni1789.a sub9A.b uni17BF.b 
     uni17C0.b uni17B7_17CD uni17B7.r uni17B8.r uni17B9.r uni17BA.r 
-    uni17C6.r uni17C9.r uni17CD.r uni17B7_17CD.r sub89.a uni25CC sub83.b 
+    uni17C6.r uni17C9.r uni17CD.r uni17B7_17CD.r uni25CC sub83.b 
     sub88.b sub8D.b sub94.b sub99.b sub9F.b uni17BF.right uni17C0.right 
     uni17C5.right uni1794.a
 ];
