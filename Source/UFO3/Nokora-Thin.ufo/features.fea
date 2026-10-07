@@ -739,7 +739,7 @@ feature blwm {
 # Class 1 (Base/Simple): Latin, punctuation, Khmer consonants, independent vowels,
 # symbols, numerals, post-base coeng, pre-base coeng, and contextual alternates.
 @GDEF_Simple = [
-    \.notdef \nonmarkingreturn \space \NULL \exclam \quotedbl 
+    .notdef \nonmarkingreturn \space \NULL \exclam \quotedbl 
     \numbersign \dollar \percent \ampersand \quotesingle \parenleft \parenright 
     \asterisk \plus \comma \hyphen \period \slash \zero \one \two \three \four \five 
     \six \seven \eight \nine \colon \semicolon \less \equal \greater \question \at \A \B 
@@ -763,7 +763,7 @@ feature blwm {
     uni17C0.b uni17B7_17CD uni17B7.r uni17B8.r uni1789.a uni17B9.r uni17BA.r 
     uni17C6.r uni17C9.r uni17CD.r uni17B7_17CD.r uni25CC sub83.b 
     sub88.b sub8D.b sub94.b sub99.b sub9F.b uni17BF.right uni17C0.right 
-    uni17C5.right uni1794.a
+    uni17C5.right uni1794.a uni20AC
 ];
 
 # Class 3 (Mark): Below-base vowels (U, UU, UA) and standard below-base co-eng ligatures
