@@ -309,6 +309,7 @@ lookup blwsBelowBaseSubstitutionsinKhmerlookup13 {
     sub uni1789.a sub89   [uni17BB uni17BC uni17BD]' by [uni17BB.b uni17BC.b uni17BD.b];
     sub uni1789.a sub89.a [uni17BB uni17BC uni17BD]' by [uni17BB.b uni17BC.b uni17BD.b];
     sub uni1789   sub89   [uni17BB uni17BC uni17BD]' by [uni17BB.b uni17BC.b uni17BD.b];
+    sub uni1789 uni17C9   [uni17BB uni17BC uni17BD]' by [uni17BB.b uni17BC.b uni17BD.b]; 
 
     # 2. General rule: Lower below-base vowels under all standard co-eng and low bases.
     sub [uni1789 uni17A1 sub80 sub81 sub82 sub83 sub84 sub85 sub86 sub87 sub88 
