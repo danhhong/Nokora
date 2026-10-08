@@ -224,6 +224,7 @@ lookup abvsAboveBaseSubstitutionsinKhmerlookup8 {
 lookup blwsBelowBaseSubstitutionsinKhmerlookup9 {
     lookupflag 0;
     sub uni1789' @abvs_below_marks by uni1789.a;
+    sub uni1789' sub88 by uni1789.a;
 } blwsBelowBaseSubstitutionsinKhmerlookup9;
 
 lookup blwsBelowBaseSubstitutionsinKhmerlookup10 {
@@ -402,6 +403,12 @@ lookup blwsBelowBaseSubstitutionsinKhmerlookup16 {
 } blwsBelowBaseSubstitutionsinKhmerlookup16;
 # =============================================================================
 
+# long sub9A back to normal sub9A
+lookup presPreBaseSubstitutionsinKhmerlookup8 {
+    lookupflag 0;
+    sub sub9A.b' uni1789.a by sub9A;
+} presPreBaseSubstitutionsinKhmerlookup8;
+
 
 # ==============================================================================
 # OPENTYPE GSUB FEATURE DEFINITIONS (SCRIPT: KHMER)
@@ -452,6 +459,7 @@ feature pres {
     script khmr;
     language dflt;
     lookup presPreBaseSubstitutionsinKhmerlookup7;
+    lookup presPreBaseSubstitutionsinKhmerlookup8;
 } pres;
 
 
